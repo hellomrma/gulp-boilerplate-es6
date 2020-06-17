@@ -1,0 +1,49 @@
+${{spriteName}}-svg-origin: (
+	total-width: {{spriteWidth}}px,
+	total-height: {{spriteHeight}}px,
+	padding: {{padding.top}}px,
+	imageSrc: '{{{baseName}}}.svg'
+);
+
+${{spriteName}}-svg-vars: (
+	{{#shapes}}
+	'{{name}}': (
+		offset-x: {{position.absolute.x}}px,
+		offset-y: {{position.absolute.y}}px,
+		width: {{width.inner}}px,
+		height: {{height.inner}}px
+	),
+	{{/shapes}}
+);
+
+@mixin useSvg-{{spriteName}} ($image, $size: false) {
+	{{!-- 변수 --}}
+	$image-origin: ${{spriteName}}-svg-origin;
+	$image-var: map-get(${{spriteName}}-svg-vars, $image);
+	$image-path: map-get($image-origin, 'imageSrc');
+	$padding: map-get(${{spriteName}}-svg-origin, 'padding');
+	$aspectRatio: map-get($image-var, 'height') / map-get($image-var, 'width');
+	$sizeRatio: $size / map-get($image-var, 'width');
+
+	{{!-- 적용 --}}
+	@if($size){
+		@if(unitless($size)){
+			@warn '"#{$size}" of "#{$image}" is unitless value. Please insert value with unit(px)';
+    }
+		@else {
+			width: $size;
+			height: round($size * $aspectRatio * 100)/100;
+			background-image: url($image-path);
+			background-size: round(map-get($image-origin, 'total-width') * $sizeRatio * 100)/100 round(map-get($image-origin, 'total-height') * $sizeRatio * 100)/100;
+			background-position: round((map-get($image-var, 'offset-x') - $padding) * $sizeRatio * 100)/100 round((map-get($image-var, 'offset-y') - $padding) * $sizeRatio * 100)/100;	
+		}
+	}
+	@else {
+		width: map-get($image-var, 'width');
+		height: map-get($image-var, 'height');
+		background-image: url($image-path);
+		background-size: map-get($image-origin, 'total-width') map-get($image-origin, 'total-height');
+		background-position: (map-get($image-var, 'offset-x') - $padding) (map-get($image-var, 'offset-y') - $padding);
+	}
+	background-repeat: no-repeat;
+}

@@ -1,0 +1,474 @@
+@mixin css3-prefix($property, $value) {
+	-webkit-#{$property}: #{$value};
+	-khtml-#{$property}: #{$value};
+	-moz-#{$property}: #{$value};
+	-ms-#{$property}: #{$value};
+	-o-#{$property}: #{$value};
+	#{$property}: #{$value};
+}
+
+@mixin background-gradient($startColor: #3C3C3C, $endColor: #999999) {
+	background-color: $startColor;
+	background-image: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor));
+	background-image: -webkit-linear-gradient(top, $startColor, $endColor);
+	background-image: -moz-linear-gradient(top, $startColor, $endColor);
+	background-image: -ms-linear-gradient(top, $startColor, $endColor);
+	background-image: -o-linear-gradient(top, $startColor, $endColor);
+	background-image: linear-gradient(top, $startColor, $endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$startColor}', endColorStr='#{$endColor}');
+}
+
+@mixin background-horizontal($startColor: #3C3C3C, $endColor: #999999) {
+	background-color: $startColor;
+	background-image: -webkit-gradient(linear, left top, right top, from($startColor), to($endColor));
+	background-image: -webkit-linear-gradient(left, $startColor, $endColor);
+	background-image: -moz-linear-gradient(left, $startColor, $endColor);
+	background-image: -ms-linear-gradient(left, $startColor, $endColor);
+	background-image: -o-linear-gradient(left, $startColor, $endColor);
+	background-image: linear-gradient(left, $startColor, $endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$startColor}', endColorStr='#{$endColor}', gradientType='1');
+}
+
+@mixin background-horizontal-inverse($startColor: #999999, $endColor: #3C3C3C) {
+	background-color: $startColor;
+	background-image: -webkit-gradient(linear, right top, left top, from($startColor), to($endColor));
+	background-image: -webkit-linear-gradient(right, $startColor, $endColor);
+	background-image: -moz-linear-gradient(right, $startColor, $endColor);
+	background-image: -ms-linear-gradient(right, $startColor, $endColor);
+	background-image: -o-linear-gradient(right, $startColor, $endColor);
+	background-image: linear-gradient(right, $startColor, $endColor);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$endColor}', endColorStr='#{$startColor}', gradientType='1');
+}
+
+@mixin background-radial($startColor: #FFFFFF, $startPos: 0%, $endColor: #000000, $endPos:100%) {
+	background: -moz-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop($startPos, $startColor), color-stop($endPos, $endColor));
+	background: -webkit-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+	background: -o-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+	background: -ms-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+	background: radial-gradient(ellipse at center, $startColor $startPos, $endColor $endPos);
+}
+
+@mixin background-size($width: 100%, $height: $width) {
+	@if type-of($width)=='number'and $height !=null {
+		@include css3-prefix('background-size', $width $height);
+	}
+
+	@else {
+		@include css3-prefix('background-size', $width);
+	}
+}
+
+@mixin background-opacity($color: #000, $opacity: 0.85) {
+	background: $color;
+	background: rgba($color, $opacity);
+}
+
+@mixin border-radius($radius: 5px) {
+	@include css3-prefix('border-radius', $radius);
+}
+
+@mixin border-radius-separate($topLeftRadius: 5px, $topRightRadius: 5px, $bottomLeftRadius: 5px, $bottomRightRadius: 5px) {
+	-webkit-border-top-left-radius: $topLeftRadius;
+	-webkit-border-top-right-radius: $topRightRadius;
+	-webkit-border-bottom-right-radius: $bottomRightRadius;
+	-webkit-border-bottom-left-radius: $bottomLeftRadius;
+	-moz-border-radius-topleft: $topLeftRadius;
+	-moz-border-radius-topright: $topRightRadius;
+	-moz-border-radius-bottomright: $bottomRightRadius;
+	-moz-border-radius-bottomleft: $bottomLeftRadius;
+	border-top-left-radius: $topLeftRadius;
+	border-top-right-radius: $topRightRadius;
+	border-bottom-right-radius: $bottomRightRadius;
+	border-bottom-left-radius: $bottomLeftRadius;
+}
+
+@mixin box($orient: horizontal, $pack: center, $align: center) {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	@include css3-prefix('box-orient', $orient);
+	@include css3-prefix('box-pack', $pack);
+	@include css3-prefix('box-align', $align);
+}
+
+@mixin box-rgba($r: 60, $g: 3, $b: 12, $opacity: 0.23, $color: #3C3C3C) {
+	background-color: transparent;
+	background-color: rgba($r, $g, $b, $opacity);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$color}', endColorstr='#{$color}');
+	zoom: 1;
+}
+
+@mixin box-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0, 0, 0, .4), $inset: "") {
+	@if ($inset !="") {
+		@include css3-prefix('box-shadow', $inset $x $y $blur $color);
+	}
+
+	@else {
+		@include css3-prefix('box-shadow', $x $y $blur $color);
+	}
+}
+
+@mixin box-sizing($type: border-box) {
+	@include css3-prefix('box-sizing', $type);
+}
+
+@mixin columns($count: 3, $gap: 10) {
+	@include css3-prefix('column-count', $count);
+	@include css3-prefix('column-gap', $gap);
+}
+
+@mixin double-borders($colorOne: #3C3C3C, $colorTwo: #999999, $radius: 0) {
+	border: 1px solid $colorOne;
+	@include css3-prefix('box-shadow', 0 0 0 1px $colorTwo);
+	@include border-radius($radius);
+}
+
+@mixin flex($value: 1) {
+	@include css3-prefix('box-flex', $value);
+}
+
+@mixin flip($scaleX: -1) {
+	@include css3-prefix('transform', scaleX($scaleX));
+	filter: FlipH;
+	-ms-filter: "FlipH";
+}
+
+@mixin font-face($fontFamily: myFont, $eotFileSrc: 'myFont.eot', $woffFileSrc: 'myFont.woff', $ttfFileSrc: 'myFont.ttf', $svgFileSrc: 'myFont.svg', $svgFontID: '#myFont') {
+	font-family: $fontFamily;
+	src: url($eotFileSrc) format('eot'), url($woffFileSrc) format('woff'), url($ttfFileSrc) format('truetype'), url($svgFileSrc + $svgFontID) format('svg');
+}
+
+@mixin opacity($opacity: 0.5) {
+	$opacityMultiplied: ($opacity * 100);
+	filter: alpha(opacity=$opacityMultiplied);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="+ $opacityMultiplied + ")";
+	@include css3-prefix('opacity', $opacity);
+}
+
+@mixin outline-radius($radius: 5px) {
+	@include css3-prefix('outline-radius', $radius);
+}
+
+@mixin resize($direction: both) {
+	@include css3-prefix('resize', $direction);
+}
+
+@mixin rotate($deg: 0, $m11: 0, $m12: 0, $m21: 0, $m22: 0) {
+	@include css3-prefix('transform', rotate($deg + deg));
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=#{$m11}, M12=#{$m12}, M21=#{$m21}, M22=#{$m22}, sizingMethod='auto expand');
+	zoom: 1;
+}
+
+@mixin text-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0, 0, 0, .4)) {
+	text-shadow: $x $y $blur $color;
+}
+
+@mixin transform($params) {
+	@include css3-prefix('transform', $params);
+}
+
+@mixin transform-origin($params) {
+	@include css3-prefix('transform-origin', $params);
+}
+
+@mixin transform-style($style: preserve-3d) {
+	@include css3-prefix('transform-style', $style);
+}
+
+@mixin transition($properties...) {
+	@if length($properties)>=1 {
+		@include css3-prefix('transition', $properties);
+	}
+
+	@else {
+		@include css3-prefix('transition', "all 0.2s ease-in-out 0s");
+	}
+}
+
+@mixin triple-borders($colorOne: #3C3C3C, $colorTwo: #999999, $colorThree: #000000, $radius: 0) {
+	border: 1px solid $colorOne;
+	@include border-radius($radius);
+	@include css3-prefix('box-shadow', "0 0 0 1px #{$colorTwo}, 0 0 0 2px #{$colorThree}");
+}
+
+@mixin keyframes($animation-name) {
+	@-webkit-keyframes #{$animation-name} {
+		@content;
+	}
+
+	@-moz-keyframes #{$animation-name} {
+		@content;
+	}
+
+	@-ms-keyframes #{$animation-name} {
+		@content;
+	}
+
+	@-o-keyframes #{$animation-name} {
+		@content;
+	}
+
+	@keyframes #{$animation-name} {
+		@content;
+	}
+}
+
+@mixin animation($str) {
+	@include css3-prefix('animation', $str);
+}
+
+@mixin absolute-full {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0
+}
+
+@mixin clearfix {
+
+	&:before,
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+}
+
+@mixin font-size($pixel) {
+	font-size: $pixel*1px;
+}
+
+@mixin vw-font-size-pc($pc-pixel) {
+	font-size: $pc-pixel*1px;
+	font-size: $pc-pixel*100/1920*1vw;
+
+	@media (min-width: $screen-xlg) {
+		font-size: $pc-pixel*1px;
+	}
+}
+
+@mixin vw-font-size-tb($tb-pixel) {
+	font-size: $tb-pixel*1px;
+	font-size: $tb-pixel*100/1366*1vw;
+}
+
+@mixin vw-font-size-mo($mo-pixel) {
+	font-size: $mo-pixel/414*828*1px;
+	font-size: $mo-pixel*100/414*1vw;
+
+	@media (max-width: 414px) {
+		font-size: $mo-pixel*1px;
+		font-size: $mo-pixel*100/414*1vw;
+	}
+}
+
+@mixin line-height-pc($num, $font-size: 0) {
+	line-height: $num;
+}
+
+@mixin line-height-tb($num, $font-size: 0) {
+	line-height: $num;
+}
+
+@mixin line-height-mo($num, $font-size: 0) {
+	line-height: $num;
+}
+
+@mixin breakpoint($point) {
+	@if $point==desktop {
+		@media screen and(min-width: $screen-lg) {
+			@content;
+		}
+	}
+
+	@else if $point==tablet {
+		@media screen and(max-width: $screen-lg - 1) {
+			@content;
+		}
+	}
+
+	@else if $point==mobile {
+		@media screen and(max-width: $screen-sm) {
+			@content;
+		}
+	}
+}
+
+@mixin respond-above($mq) {
+	@media (min-width: $mq) {
+		@content;
+	}
+}
+
+@mixin respond-between($mq-min, $mq-max) {
+	@media (min-width: $mq-min) and (max-width: $mq-max) {
+		@content;
+	}
+}
+
+@mixin respond-below($mq) {
+	@media (max-width: $mq) {
+		@content;
+	}
+}
+
+@mixin multi-ellipsis($line) {
+	display: block;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: $line;
+	-webkit-box-orient: vertical;
+	text-overflow: ellipsis;
+}
+
+@mixin vw-convert-pc($property, $pc-pixel) {
+	@if type-of($pc-pixel)==number {
+		#{$property}: $pc-pixel*1px;
+		#{$property}: $pc-pixel*100/1920*1vw;
+
+		@media (min-width: $screen-xlg) {
+			#{$property}: $pc-pixel*1px;
+		}
+	}
+
+	@else if type-of($pc-pixel)==string {
+		#{$property}: auto;
+
+		@media (min-width: $screen-xlg) {
+			#{$property}: auto;
+		}
+	}
+
+	@else if type-of($pc-pixel)==list {
+		$px: ();
+		$vw: ();
+
+		@each $value in $pc-pixel {
+			@if type-of($value)==number {
+				$px: append($px, $value*1px);
+				$vw: append($vw, $value*100/1920*1vw);
+			}
+
+			@else if type-of($value)==string {
+				$px: append($px, auto);
+				$vw: append($vw, auto);
+			}
+		}
+
+		#{$property}: $px;
+		#{$property}: $vw;
+		$px: ();
+
+		@each $value in $pc-pixel {
+			@if type-of($value)==number {
+				$px: append($px, $value*1px);
+			}
+
+			@else if type-of($value)==string {
+				$px: append($px, auto);
+			}
+		}
+
+		@media (min-width:$screen-xlg) {
+			#{$property}: $px;
+		}
+	}
+}
+
+@mixin vw-convert-tb($property, $tb-pixel) {
+	@if type-of($tb-pixel)==number {
+		@media (max-width: $screen-lg) {
+			#{$property}: $tb-pixel*1px;
+			#{$property}: $tb-pixel*100/1366*1vw;
+		}
+	}
+
+	@else if type-of($tb-pixel)==string {
+		@media (max-width: $screen-lg) {
+			#{$property}: auto;
+		}
+	}
+
+	@else if type-of($tb-pixel)==list {
+		$px: ();
+		$vw: ();
+
+		@each $value in $tb-pixel {
+			@if type-of($value)==number {
+				$px: append($px, $value*1px);
+				$vw: append($vw, $value*100/1366*1vw);
+			}
+
+			@else if type-of($value)==string {
+				$px: append($px, auto);
+				$vw: append($vw, auto);
+			}
+		}
+
+		@media (max-width: $screen-lg) {
+			#{$property}: $px;
+			#{$property}: $vw;
+		}
+	}
+}
+
+@mixin vw-convert-mo($property, $mo-pixel) {
+	@if type-of($mo-pixel)==number {
+		#{$property}: $mo-pixel/414*828*1px;
+		#{$property}: $mo-pixel*100/414*1vw;
+
+		@media (max-width: 414px) {
+			#{$property}: $mo-pixel*1px;
+			#{$property}: $mo-pixel*100/414*1vw;
+		}
+	}
+
+	@else if type-of($mo-pixel)==string {
+		#{$property}: auto;
+
+		@media (max-width: 414px) {
+			#{$property}: auto;
+		}
+	}
+
+	@else if type-of($mo-pixel)==list {
+		$px: ();
+		$vw: ();
+
+		@each $value in $mo-pixel {
+			@if type-of($value)==number {
+				$px: append($px, $value/414*828*1px);
+				$vw: append($vw, $value*100/414*1vw);
+			}
+
+			@else if type-of($value)==string {
+				$px: append($px, auto);
+				$vw: append($vw, auto);
+			}
+		}
+
+		#{$property}:$px;
+		#{$property}:$vw;
+		$px: ();
+		$vw: ();
+
+		@each $value in $mo-pixel {
+			@if type-of($value)==number {
+				$px: append($px, $value*1px);
+				$vw: append($vw, $value*100/414*1vw);
+			}
+
+			@else if type-of($value)==string {
+				$px: append($px, auto);
+				$vw: append($vw, auto);
+			}
+		}
+
+		@media (max-width:414px) {
+			#{$property}: $px;
+			#{$property}: $vw;
+		}
+	}
+}

@@ -1,0 +1,40 @@
+/* SVG Icons */
+
+// i {
+//     display: inline-block;
+// }
+
+// $folder: "svg";
+// @each $icon in svg-list($folder) {
+//     $url: inline-svg($icon, #fff);
+//     .#{$icon} {
+//         background-image: $url;
+//         background-position: center;
+//         background-size: 100% auto;
+//         background-repeat: no-repeat;
+//     }
+// }
+
+.svg-sample-01 {
+    display:inline-block;
+    width:30px;
+    height:30px;
+    @include inline-svg-icon("twitter", #cecece, center, 30px 30px);
+    &:hover{
+        @include inline-svg-icon("twitter", orange, center, 30px 30px)
+    }
+}
+
+.svg-sample-02 {
+    display:inline-block;
+    width:30px;
+    height:30px;
+    @include inline-svg-icon("window", red, center, 30px 30px)
+}
+
+.svg-sample-03 {
+    display:inline-block;
+    width:30px;
+    height:30px;
+    @include inline-svg-icon("youtube", orange, center, 30px 30px)
+}

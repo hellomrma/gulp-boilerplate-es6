@@ -1,0 +1,56 @@
+@@include('./include/head.html',{"title": "Document Title - SVG Icon, CSS VW Sample : Sample : UIT Gulp Project", "list_title": "List Title - Sample"})
+<body>
+@@include('./include/skipnavigation.html')
+
+	<div class="wrap">
+		<!-- Header -->
+@@include('./include/header.html',{"type": "01"})
+		<!-- // Header -->
+
+		<!-- Contents -->
+		<main id="content">
+
+			<div class="block-element">
+				<strong>Sprite Image</strong>
+				<p>Normal</p>
+				<p>(SCSS : @include sp-normal('filename'))</p>
+				<i class="sp-sample-01"><span class="blind">description</span></i>
+				<p>Retina</p>
+				<p>(SCSS : @include sp-retina('filename'))</p>
+				<i class="sp-sample-02"><span class="blind">description</span></i>
+			</div>
+
+			<div class="block-element">
+				<strong>SVG icon</strong>
+				<i class="svg-sample-01"></i>
+				<i class="svg-sample-02"></i>
+				<i class="svg-sample-03"></i>
+			</div>
+
+      <div class="block-element">
+				<strong>SVG Sprite</strong>
+				<i class="svg-sprite-sample-01"></i>
+				<i class="svg-sprite-sample-02"></i>
+				<i class="svg-sprite-sample-03"></i>
+			</div>
+
+			<div class="block-element">
+				<strong>CSS VW</strong>
+				<p class="vw-sample-text">Please Resize Browser.</p>
+			</div>
+
+		</main>
+		<!-- // Contents -->
+
+		<!-- Footer -->
+@@include('./include/footer.html',{"type": "01"})
+		<!-- // Footer -->
+	</div>
+
+	<!-- Layer -->
+	<div class="layer"></div>
+	<!-- // Layer -->
+
+@@include('./include/script.html')
+</body>
+</html>
