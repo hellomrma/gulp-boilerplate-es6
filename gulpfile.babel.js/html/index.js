@@ -147,9 +147,6 @@ export const generateHTML = (done) => {
         src("templates/@index.html")
             .pipe(ejs(projectObjJson))
             .pipe(dest("dist/"))
-            .pipe(get('My server').reload({
-                stream: true
-            }))
         done();
     });
 }

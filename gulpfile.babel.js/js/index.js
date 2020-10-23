@@ -9,6 +9,3 @@ export const minifyJS = () =>
     .pipe(concat(config.jsSetting.minifyFileName))
     .pipe(uglify())
     .pipe(dest(config.jsSetting.dist))
-    .pipe(get('My server').reload({
-        stream: true
-    }))

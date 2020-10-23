@@ -1,12 +1,12 @@
-import { watch, series } from 'gulp';
-import browser from 'browser-sync';
+import { watch, series, parallel } from 'gulp';
+import browser, {get} from 'browser-sync';
 import config from '../../config.json';
 import { minifyJS } from '../js';
-import { compileSCSS, concatLibsCSS, minifyCSS } from '../css';
-import { inlineSVG, generateImages, generateSprite, spriteSvg } from '../images';
+import { compileSCSS, concatLibsCSS } from '../css';
+import { generateImages, generateSprite, spriteSvg } from '../images';
 import { generateHTML, setHTML } from '../html';
-import { swipeJS, swipeFont, swipeImage, swipeCSS, swipeHTML, removeTempSvgSprites } from '../swipe';
-import { cloneJS, cloneFontFolder, cloneSvgSprites } from '../clone';
+import { swipeJS, swipeFont, swipeCSS, swipeHTML } from '../swipe';
+import { cloneJS, cloneFontFolder } from '../clone';
 const browsersync = browser.create('My server');
 
 // Server
@@ -24,18 +24,17 @@ export const launchServer = (done) => {
     if (browsersync) browsersync.init(browserSyncSetting);
     done();
 }
+// Server-reload
+export const browserSyncReload = (done) => {
+  get('My server').reload();
+  done();
+}
 // Watch
 export const watchingResources = (done) => {
-    watch(config.jsSetting.src, series(swipeJS, cloneJS, minifyJS));
-    watch(config.fontsSetting.src, series(swipeFont, cloneFontFolder));
-    watch(config.imgSetting.src, series(series(swipeImage, spriteSvg, cloneSvgSprites, removeTempSvgSprites, generateImages, inlineSVG), series(swipeCSS, concatLibsCSS, generateSprite, compileSCSS, minifyCSS), (done) => {
-        browsersync.reload();
-        done();
-    }));
-    watch(config.htmlSetting.src, series(swipeHTML, setHTML, generateHTML));
-    watch(config.cssSetting.src, series(series(swipeCSS, concatLibsCSS, generateSprite, compileSCSS, minifyCSS), (done) => {
-        browsersync.reload();
-        done();
-    }));
+    watch(config.jsSetting.src, series(swipeJS, cloneJS, minifyJS, browserSyncReload));
+    watch(config.fontsSetting.src, series(swipeFont, cloneFontFolder, browserSyncReload));
+    watch(config.imgSetting.watchSrc, series(parallel(spriteSvg, generateSprite, generateImages), compileSCSS, browserSyncReload));
+    watch(config.htmlSetting.src, series(swipeHTML, parallel(setHTML, generateHTML), browserSyncReload));
+    watch(config.cssSetting.src, series(swipeCSS, parallel(concatLibsCSS, compileSCSS), browserSyncReload));
     done();
 }

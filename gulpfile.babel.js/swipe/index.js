@@ -13,10 +13,6 @@ export const swipeJS = () =>
 export const swipeFont = () =>
     del([config.fontsSetting.dist])
 
-// Swipe Image Dist Folder
-export const swipeImage = () =>
-    del([config.imgSetting.dist])
-
 // Swipe HTML Dist Folder
 export const swipeHTML = () =>
     del([config.htmlSetting.dist])
@@ -24,6 +20,3 @@ export const swipeHTML = () =>
 // Swipe CSS Dist Folder
 export const swipeCSS = () =>
     del([config.cssSetting.dist])
-
-export const removeTempSvgSprites = () =>
-    del(config.dir.src + 'sprite-svg-temp')

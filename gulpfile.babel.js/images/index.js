@@ -1,10 +1,8 @@
 import path from 'path';
 import { src, dest } from 'gulp';
-import newer from 'gulp-newer';
+import cache from 'gulp-cached';
 import imagemin from 'gulp-imagemin';
-import size from 'gulp-size';
-import svgMin from 'gulp-svgmin';
-import sassInlineSvg from 'gulp-sass-inline-svg';
+import vinylBuffer from 'vinyl-buffer';
 import svgSprite from 'gulp-svg-sprite';
 import spritesmith from 'gulp.spritesmith-multi';
 import sort from 'gulp-sort';
@@ -13,25 +11,26 @@ import config from '../../config.json';
 
 export const generateImages = () =>
     src(config.imgSetting.src)
-    .pipe(newer(config.imgSetting.dist))
-    .pipe(imagemin(config.imgSetting.minOpts))
-    .pipe(size({
-        showFiles: false
+    .pipe(cache('optimizeImage'))
+    .pipe(imagemin([
+      imagemin.gifsicle({interlaced: true}),
+      imagemin.mozjpeg({quality: 75, progressive: true}),
+      imagemin.optipng({optimizationLevel: 5}),
+      imagemin.svgo({
+        plugins: [
+          {removeViewBox: true},
+          {cleanupIDs: false}
+        ]
+      })
+    ], {
+      verbose: true
     }))
     .pipe(dest(config.imgSetting.dist))
-
-export const inlineSVG = () =>
-    src(config.imgSetting.svg)
-    .pipe(newer(config.imgSetting.dist))
-    .pipe(svgMin())
-    .pipe(sassInlineSvg({
-        destDir: 'src/css/scss/svg'
-    }))
 
 export const generateSprite = () => {
     var opts = {
         spritesmith: function(options, sprite, icons) {
-            options.imgPath            = `../img/sprites/${options.imgName}`;
+            options.imgPath            = `../img/${options.imgName}`;
             options.cssName            = `_${sprite}.scss`;
             options.cssTemplate        = `./src/css/sprites-data/spritesmith-mixins.handlebars`
             options.cssSpritesheetName = sprite;
@@ -44,7 +43,14 @@ export const generateSprite = () => {
         console.log(err);
     });
 
-    var imgStream = spriteData.img.pipe(dest('./dist/img/sprites'));
+    var imgStream = spriteData.img
+      .pipe(vinylBuffer())
+      .pipe(imagemin([
+        imagemin.optipng({optimizationLevel: 5}),
+      ], {
+        verbose: true
+      }))
+      .pipe(dest('./dist/img/'));
     var cssStream = spriteData.css.pipe(dest('./src/css/sprites-data'));
 
     return merge(imgStream, cssStream);
@@ -92,5 +98,15 @@ export const spriteSvg = () => {
     return src(path.join(`${config.dir.src}/img/sprites-svg`, '*.svg'))
         .pipe(sort())
         .pipe(svgSprite(options.spritesmith({ folder, config })))
-        .pipe(dest(`${config.dir.src}/sprite-svg-temp/`))
+        .pipe(imagemin([
+          imagemin.svgo({
+            plugins: [
+              {removeViewBox: true},
+              {cleanupIDs: false}
+            ]
+          })
+        ], {
+          verbose: true
+        }))
+        .pipe(dest(`${config.dir.dist}/img/`))
 }

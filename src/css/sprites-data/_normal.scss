@@ -6,7 +6,7 @@ $normal-vars: (
 		height: 32px,
 		total-width: 68px,
 		total-height: 68px,
-		imageSrc: '../img/sprites/normal.png'
+		imageSrc: '../img/normal.png'
 	),
 	'github': (
 		offset-x: -36px,
@@ -15,7 +15,7 @@ $normal-vars: (
 		height: 32px,
 		total-width: 68px,
 		total-height: 68px,
-		imageSrc: '../img/sprites/normal.png'
+		imageSrc: '../img/normal.png'
 	),
 	'twitter': (
 		offset-x: 0px,
@@ -24,13 +24,13 @@ $normal-vars: (
 		height: 32px,
 		total-width: 68px,
 		total-height: 68px,
-		imageSrc: '../img/sprites/normal.png'
+		imageSrc: '../img/normal.png'
 	),
 );
 $normal-origin: (
   total-width: 68px,
   total-height: 68px,
-  imageSrc: '../img/sprites/normal.png'
+  imageSrc: '../img/normal.png'
 );
 
 @mixin sprite-size($image) {

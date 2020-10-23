@@ -5,7 +5,7 @@ import postcss from 'gulp-postcss';
 import size from 'gulp-size';
 import rename from 'gulp-rename';
 import cssnano from 'cssnano';
-import autoprefixer from 'autoprefixer';
+import autoprefixer from 'gulp-autoprefixer';
 import config from '../../config.json';
 
 export const concatLibsCSS = () =>
@@ -16,18 +16,19 @@ export const concatLibsCSS = () =>
 export const compileSCSS = () =>
     src([config.cssSetting.src], { sourcemaps: true })
     .pipe(sass(config.cssSetting.sassOpts))
-    .pipe(postcss([autoprefixer()]))
+    .pipe(autoprefixer({
+      overrideBrowserslist: config.autoprefixer,
+      remove: false,
+      cascade: false
+    }))
     .pipe(size({
         showFiles: true
     }))
     .pipe(dest(config.cssSetting.dist, { sourcemaps: true }))
-
-export const minifyCSS = () =>
-    src(config.dir.dist + 'css/*.css')
     .pipe(postcss([cssnano({
-        preset: 'default',
+      preset: 'default',
     })]))
     .pipe(rename({
-        suffix: '.min'
+      suffix: '.min'
     }))
     .pipe(dest(config.cssSetting.dist))

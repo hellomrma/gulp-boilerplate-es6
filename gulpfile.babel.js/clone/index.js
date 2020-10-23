@@ -21,7 +21,3 @@ export const cloneFontFolder = () =>
     src(config.fontsSetting.src)
     .pipe(newer(config.fontsSetting.dist))
     .pipe(dest(config.fontsSetting.dist))
-
-export const cloneSvgSprites = () =>
-    src(config.dir.src + 'sprite-svg-temp/**/*.svg')
-    .pipe(dest(config.imgSetting.dist))
