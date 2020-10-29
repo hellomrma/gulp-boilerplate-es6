@@ -34,7 +34,7 @@ export const watchingResources = (done) => {
     watch(config.jsSetting.src, series(swipeJS, cloneJS, minifyJS, browserSyncReload));
     watch(config.fontsSetting.src, series(swipeFont, cloneFontFolder, browserSyncReload));
     watch(config.imgSetting.watchSrc, series(parallel(spriteSvg, generateSprite, generateImages), compileSCSS, browserSyncReload));
-    watch(config.htmlSetting.src, series(swipeHTML, parallel(setHTML, generateHTML), browserSyncReload));
+    watch(config.htmlSetting.src, series(swipeHTML, parallel(setHTML), generateHTML, browserSyncReload));
     watch(config.cssSetting.src, series(swipeCSS, parallel(concatLibsCSS, compileSCSS), browserSyncReload));
     done();
 }
